@@ -40,4 +40,4 @@ crashlytics.properties
 fabric.properties
 
 #Ignore the dev key
-app/src/main/java/com/jiahaoliuliu/youtubeandroidintegration/DeveloperKey.java
+src/main/java/com/jiahaoliuliu/youtubeandroidintegration/DeveloperKey.java
