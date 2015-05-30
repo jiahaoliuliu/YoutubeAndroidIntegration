@@ -38,3 +38,6 @@ com_crashlytics_export_strings.xml
 crashlytics-build.properties
 crashlytics.properties
 fabric.properties
+
+#Ignore the dev key
+app/src/main/java/com/jiahaoliuliu/youtubeandroidintegration/DeveloperKey.java

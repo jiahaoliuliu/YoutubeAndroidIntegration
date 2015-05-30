@@ -15,11 +15,5 @@
   limitations under the License.
 -->
 <resources>
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-    </style>
-  <style name="BlackNoBarsTheme" parent="Theme.AppCompat.Light.NoActionBar"/>
-  <style name="BlackNoTitleBarTheme" parent="Theme.AppCompat.Light.NoActionBar"/>
-
+    <color name="gray">#ff888888</color>
 </resources>
