@@ -2,6 +2,8 @@ package com.jiahaoliuliu.youtubeandroidintegration;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
@@ -12,15 +14,17 @@ import com.google.android.youtube.player.YouTubePlayerFragment;
 public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
     private static final int RECOVERY_DIALOG_REQUEST = 1;
-    private static final String DEVELOPER_KEY = "";
+    private static final String DEVELOPER_KEY = "AIzaSyC4tPvQqN08CQ6a0FudUubzOKWqOiql-mQ";
 
     private YouTubePlayerFragment mYoutubePlayerFragment;
+    private TextView simpleInfoTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        simpleInfoTextView = (TextView) findViewById(R.id.simpleInfoTextView);
         mYoutubePlayerFragment = (YouTubePlayerFragment)getFragmentManager().findFragmentById(R.id.youtube_fragment);
         mYoutubePlayerFragment.initialize(DEVELOPER_KEY, this);
     }
@@ -29,6 +33,13 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean wasRestored) {
         if (!wasRestored) {
             youTubePlayer.cueVideo("nCgQDjiotG0");
+
+            youTubePlayer.setOnFullscreenListener(new YouTubePlayer.OnFullscreenListener() {
+                @Override
+                public void onFullscreen(boolean isFullScreen) {
+                    simpleInfoTextView.setVisibility(isFullScreen? View.GONE : View.VISIBLE);
+                }
+            });
         }
     }
 
