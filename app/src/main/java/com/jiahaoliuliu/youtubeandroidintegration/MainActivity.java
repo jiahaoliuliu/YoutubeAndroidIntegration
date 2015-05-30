@@ -14,10 +14,14 @@ import com.google.android.youtube.player.YouTubePlayerFragment;
 public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
     private static final int RECOVERY_DIALOG_REQUEST = 1;
-    private static final String DEVELOPER_KEY = "AIzaSyC4tPvQqN08CQ6a0FudUubzOKWqOiql-mQ";
+    private static final String DEVELOPER_KEY = "";
 
     private YouTubePlayerFragment mYoutubePlayerFragment;
     private TextView simpleInfoTextView;
+    private YouTubePlayer mYouTubePlayer;
+
+    // Check if it was full screen or not
+    private boolean mIsFullScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +36,16 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean wasRestored) {
         if (!wasRestored) {
-            youTubePlayer.cueVideo("nCgQDjiotG0");
-
-            youTubePlayer.setOnFullscreenListener(new YouTubePlayer.OnFullscreenListener() {
+            mYouTubePlayer = youTubePlayer;
+            mYouTubePlayer.setOnFullscreenListener(new YouTubePlayer.OnFullscreenListener() {
                 @Override
                 public void onFullscreen(boolean isFullScreen) {
                     simpleInfoTextView.setVisibility(isFullScreen? View.GONE : View.VISIBLE);
+                    mIsFullScreen = isFullScreen;
                 }
             });
+
+            mYouTubePlayer.cueVideo("nCgQDjiotG0");
         }
     }
 
@@ -61,5 +67,14 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
             return;
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mIsFullScreen) {
+            mYouTubePlayer.setFullscreen(false);
+            return;
+        }
+        super.onBackPressed();
     }
 }
