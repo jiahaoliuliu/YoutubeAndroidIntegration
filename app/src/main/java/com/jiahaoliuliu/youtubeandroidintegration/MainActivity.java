@@ -2,21 +2,22 @@ package com.jiahaoliuliu.youtubeandroidintegration;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 
-public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
+public class MainActivity extends AppCompatActivity implements YouTubePlayer.OnInitializedListener {
 
     private static final int RECOVERY_DIALOG_REQUEST = 1;
     private static final String DEVELOPER_KEY = "";
 
-    private YouTubePlayerFragment mYoutubePlayerFragment;
+    private YouTubePlayerSupportFragment mYoutubePlayerFragment;
     private TextView simpleInfoTextView;
     private YouTubePlayer mYouTubePlayer;
 
@@ -29,7 +30,7 @@ public class MainActivity extends YouTubeBaseActivity implements YouTubePlayer.O
         setContentView(R.layout.activity_main);
 
         simpleInfoTextView = (TextView) findViewById(R.id.simpleInfoTextView);
-        mYoutubePlayerFragment = (YouTubePlayerFragment)getFragmentManager().findFragmentById(R.id.youtube_fragment);
+        mYoutubePlayerFragment = (YouTubePlayerSupportFragment)getSupportFragmentManager().findFragmentById(R.id.youtube_fragment);
         mYoutubePlayerFragment.initialize(DEVELOPER_KEY, this);
     }
 
