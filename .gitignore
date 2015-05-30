@@ -40,4 +40,4 @@ crashlytics.properties
 fabric.properties
 
 #Ignore the dev key
-DeveloperKey.java
+*/DeveloperKey.java
