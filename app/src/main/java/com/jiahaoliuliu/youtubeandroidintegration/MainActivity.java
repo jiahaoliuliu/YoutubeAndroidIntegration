@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements YouTubePlayer.OnI
 
     private static final String TAG = "MainActivity";
 
-    private static final String VIDEO_ID = "PVjiKRfKpPI";
+    private static final String VIDEO_ID = "tPAqrA9tkJU";
 
     private static final int RECOVERY_DIALOG_REQUEST = 1;
     private static final String DEVELOPER_KEY = "";
@@ -70,30 +70,45 @@ public class MainActivity extends AppCompatActivity implements YouTubePlayer.OnI
 
 
     private void fillYoutubeInfo() {
-        YouTube youtube = new YouTube.Builder(new NetHttpTransport(),
-                new JacksonFactory(), new HttpRequestInitializer() {
-            @Override
-            public void initialize(HttpRequest hr) throws IOException {}
-            }
-        ).setApplicationName(mContext.getString(R.string.app_name)).build();
+        YouTube youtube =
+                new YouTube.Builder(new NetHttpTransport(),
+                    new JacksonFactory(), new HttpRequestInitializer() {
+                        @Override
+                        public void initialize(HttpRequest httpRequest) throws IOException {}
+                    })
+                    .setApplicationName(mContext.getString(R.string.app_name)).build();
 
         try{
             YouTube.Search.List query = youtube.search().list("id,snippet");
             query.setKey(YOUTUBE_DATA_KEY);
             query.setType("video");
             query.setFields("items(id/videoId,snippet/title,snippet/description,snippet/thumbnails/default/url)");
-            query.setQ("drone");
+            query.setQ("v=" + VIDEO_ID);
+            query.setType("video");
             SearchListResponse response = query.execute();
             List<SearchResult> results = response.getItems();
             Log.v(TAG, "List of search results retrieved. " + results.size());
-            for (SearchResult searchResult : results) {
+            for (final SearchResult searchResult : results) {
                 Log.v(TAG, searchResult.toPrettyString());
+                // Check the video id
+                if (searchResult.getId().getVideoId().equals(VIDEO_ID)) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateUi(searchResult);
+                        }
+                    });
+                    break;
+                }
             }
         }catch(IOException e){
             Log.e(TAG, "Could not initialize: ", e);
         }
+    }
 
-
+    private void updateUi(SearchResult searchResult) {
+        mTitleTextView.setText(searchResult.getSnippet().getTitle());
+        mDescriptionTextView.setText(searchResult.getSnippet().getDescription());
     }
 
     @Override
